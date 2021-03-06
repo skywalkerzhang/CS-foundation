@@ -171,41 +171,40 @@ Spring 中的 IoC 的实现原理就是工厂模式加反射机制。
 
 示例：
 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-
 ```
-interface Fruit {     public abstract void eat();}class Apple implements Fruit {    public void eat(){        System.out.println("Apple");    }}class Orange implements Fruit {    public void eat(){        System.out.println("Orange");    }}class Factory {    public static Fruit getInstance(String ClassName) {        Fruit f=null;        try {            f=(Fruit)Class.forName(ClassName).newInstance();        } catch (Exception e) {            e.printStackTrace();        }        return f;    }}class Client {    public static void main(String[] a) {        Fruit f=Factory.getInstance("io.github.dunwu.spring.Apple");        if(f!=null){            f.eat();        }    }}
+
+interface Fruit {
+     public abstract void eat();
+}
+class Apple implements Fruit {
+    public void eat(){
+        System.out.println("Apple");
+    }
+}
+class Orange implements Fruit {
+    public void eat(){
+        System.out.println("Orange");
+    }
+}
+class Factory {
+    public static Fruit getInstance(String ClassName) {
+        Fruit f=null;
+        try {
+            f=(Fruit)Class.forName(ClassName).newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return f;
+    }
+}
+class Client {
+    public static void main(String[] a) {
+        Fruit f=Factory.getInstance("io.github.dunwu.spring.Apple");
+        if(f!=null){
+            f.eat();
+        }
+    }
+}
 ```
 
 **3、Beans**
@@ -223,25 +222,22 @@ interface Fruit {     public abstract void eat();}class Apple implements Fruit {
 
 bean 所需的依赖项和服务在 XML 格式的配置文件中指定。这些配置文件通常包含许多 bean 定义和特定于应用程序的配置选项。它们通常以 bean 标签开头。例如：
 
-- 
-- 
-- 
-
 ```
-<bean id="studentbean" class="org.edureka.firstSpring.StudentBean"> <property name="name" value="Edureka"></property></bean>
+<bean id="studentbean" class="org.edureka.firstSpring.StudentBean">
+ <property name="name" value="Edureka"></property>
+</bean>
 ```
 
 - **基于注解配置**
 
 您可以通过在相关的类，方法或字段声明上使用注解，将 bean 配置为组件类本身，而不是使用 XML 来描述 bean 装配。默认情况下，Spring 容器中未打开注解装配。因此，您需要在使用它之前在 Spring 配置文件中启用它。例如：
 
-- 
-- 
-- 
-- 
-
 ```
-<beans><context:annotation-config/><!-- bean definitions go here --></beans>
+
+<beans>
+<context:annotation-config/>
+<!-- bean definitions go here -->
+</beans>
 ```
 
 - **基于 Java API 配置**
@@ -253,16 +249,14 @@ Spring 的 Java 配置是通过使用 @Bean 和 @Configuration 来实现。
 
 例如：
 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-
 ```
-@Configurationpublic class StudentConfig {    @Bean    public StudentBean myStudent() {        return new StudentBean();    }}
+@Configuration
+public class StudentConfig {
+    @Bean
+    public StudentBean myStudent() {
+        return new StudentBean();
+    }
+}
 ```
 
 **3.3. spring 支持集中 bean scope？**
@@ -301,34 +295,32 @@ spring bean 容器的生命周期流程如下：
 
 Student.java
 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-
 ```
-public class Student {    private Person person;    //Setters and Getters}public class Person {    private String name;    private String address;    //Setters and Getters}
+
+public class Student {
+    private Person person;
+    //Setters and Getters
+}
+public class Person {
+    private String name;
+    private String address;
+    //Setters and Getters
+}
 ```
 
 bean.xml
 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-
 ```
-<bean id=“StudentBean" class="com.edureka.Student">    <property name="person">        <!--This is inner bean -->        <bean class="com.edureka.Person">            <property name="name" value=“Scott"></property>            <property name="address" value=“Bangalore"></property>        </bean>    </property></bean>
+
+<bean id=“StudentBean" class="com.edureka.Student">
+    <property name="person">
+        <!--This is inner bean -->
+        <bean class="com.edureka.Person">
+            <property name="name" value=“Scott"></property>
+            <property name="address" value=“Bangalore"></property>
+        </bean>
+    </property>
+</bean>
 ```
 
 **3.6. 什么是 spring 装配**
@@ -385,42 +377,36 @@ Spring 容器能够自动装配 bean。也就是说，可以通过检查 BeanFac
 
 示例：
 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-
 ```
-public class Employee {    private String name;    @Required    public void setName(String name){        this.name=name;    }
+public class Employee {
+    private String name;
+    @Required
+    public void setName(String name){
+        this.name=name;
+    }
 
-    public string getName(){        return name;    }}
+
+    public string getName(){
+        return name;
+    }
+}
 ```
 
 **4.5. @Autowired 注解有什么用？**
 
 @Autowired 可以更准确地控制应该在何处以及如何进行自动装配。此注解用于在 setter 方法，构造函数，具有任意名称或多个参数的属性或方法上自动装配 bean。默认情况下，它是类型驱动的注入。
 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-
 ```
-public class Employee {    private String name;    @Autowired    public void setName(String name) {        this.name=name;    }    public string getName(){        return name;    }}
+public class Employee {
+    private String name;
+    @Autowired
+    public void setName(String name) {
+        this.name=name;
+    }
+    public string getName(){
+        return name;
+    }
+}
 ```
 
 **4.6. @Qualifier 注解有什么用？**
@@ -429,36 +415,31 @@ public class Employee {    private String name;    @Autowired    public void set
 
 例如，这里我们分别有两个类，Employee 和 EmpAccount。在 EmpAccount 中，使用@Qualifier 指定了必须装配 id 为 emp1 的 bean。
 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-
 ```
-public class Employee {    private String name;    @Autowired    public void setName(String name) {        this.name=name;    }    public string getName() {        return name;    }}
+public class Employee {
+    private String name;
+    @Autowired
+    public void setName(String name) {
+        this.name=name;
+    }
+    public string getName() {
+        return name;
+    }
+}
 ```
 
 EmpAccount.java
 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-
 ```
-public class EmpAccount {    private Employee emp;
-    @Autowired    @Qualifier(emp1)    public void showName() {        System.out.println(“Employee name : ”+emp.getName);    }}
+public class EmpAccount {
+    private Employee emp;
+
+    @Autowired
+    @Qualifier(emp1)
+    public void showName() {
+        System.out.println(“Employee name : ”+emp.getName);
+    }
+}
 ```
 
 **4.7. @RequestMapping 注解有什么用？**
